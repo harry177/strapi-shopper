@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"cd strapi && npm run develop\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -12,6 +12,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
     "antd": "^5.22.2",
+    "axios": "^1.7.7",
+    "concurrently": "^9.1.0",
     "react": "^18.3.1",
     "react-cookie": "^7.2.2",
     "react-dom": "^18.3.1",

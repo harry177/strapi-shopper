@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLoginUserMutation } from "../features/api/api";
 import {
   Controller,
   FieldValues,
@@ -11,7 +12,9 @@ export const LoginPage = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  //const navigate = useNavigate();
+  const [loginUser, { isSuccess }] = useLoginUserMutation();
+
+  const navigate = useNavigate();
 
   const {
     formState: { errors, isValid },
@@ -30,16 +33,24 @@ export const LoginPage = () => {
     }
   }, [isClicked]);
 
-  /*useEffect(() => {
-    isValid && setIsDisabled(false);
-  }, [isValid]);*/
+  useEffect(() => {
+    if (isValid) {
+      setIsDisabled(false);
+    }
+  }, [isValid]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+    }
+  }, [isSuccess]);
 
   const handleForm: SubmitHandler<FieldValues> = async (data) => {
     const user = {
-      email: data.emailLabel,
+      identifier: data.emailLabel,
       password: data.passwordLabel,
     };
-
+    await loginUser(user);
   };
 
   return (

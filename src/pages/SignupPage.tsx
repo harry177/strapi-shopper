@@ -34,13 +34,37 @@ export const SignupPage = () => {
     isValid && setIsDisabled(false);
   }, [isValid]);*/
 
+  interface IUserData {
+    username: string;
+    email: string;
+    password: string;
+  }
+
+  const strapiRegister = async (userData: IUserData) => {
+    const response = await fetch("http://localhost:1337/api/auth/local/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  };
+
   const handleForm: SubmitHandler<FieldValues> = (data) => {
     const newUser = {
-      name: data.nameLabel,
+      username: data.nameLabel,
       email: data.emailLabel,
       password: data.passwordLabel,
     };
-    
+
+    strapiRegister(newUser);
   };
 
   return (
