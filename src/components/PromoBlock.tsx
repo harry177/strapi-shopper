@@ -1,3 +1,7 @@
+import { Image } from "antd";
+
 export const PromoBlock = () => {
-    return <></>
-}
+  return (
+    <Image src={"./promo-image.png"} alt={"Promo image"} />
+  );
+};

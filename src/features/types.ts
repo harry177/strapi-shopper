@@ -13,6 +13,7 @@ export interface ISignupUser {
 
 export interface IProductImage {
   url: string;
+  alt: string;
 }
 
 export interface IReturnedProduct {
