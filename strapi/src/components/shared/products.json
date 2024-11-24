@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_products",
+  "info": {
+    "displayName": "Products",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "Product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::product.product"
+    }
+  }
+}

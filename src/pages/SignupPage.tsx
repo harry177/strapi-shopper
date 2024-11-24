@@ -5,16 +5,22 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useSignupUserMutation } from "../features/api/api";
 
 export const SignupPage = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  //const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["accessToken", "userId", "userName"]);
+
+  const [signupUser, { data, isSuccess }] = useSignupUserMutation();
+
+  const navigate = useNavigate();
 
   const {
     formState: { errors, isValid },
-    getValues,
     control,
     trigger,
     handleSubmit,
@@ -30,41 +36,41 @@ export const SignupPage = () => {
     }
   }, [isClicked]);
 
-  /*useEffect(() => {
-    isValid && setIsDisabled(false);
-  }, [isValid]);*/
+  useEffect(() => {
+    if (isValid) {
+      setIsDisabled(false);
+    }
+  }, [isValid]);
 
-  interface IUserData {
-    username: string;
-    email: string;
-    password: string;
+  useEffect(() => {
+    if (isSuccess) {
+      const { jwt, user: { id, username } } = data as IAuthUser;
+      setCookie("accessToken", jwt, { path: "/" });
+      setCookie("userId", id, { path: "/" });
+      setCookie("userName", username, { path: "/" });
+      navigate("/");
+    } else {
+      console.error("Signup error");
+      console.log(cookies);
+    }
+  }, [isSuccess]);
+
+  interface IAuthUser {
+    jwt: string,
+    user: {
+      id: number,
+      username: string,
+    }
   }
 
-  const strapiRegister = async (userData: IUserData) => {
-    const response = await fetch("http://localhost:1337/api/auth/local/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  };
-
-  const handleForm: SubmitHandler<FieldValues> = (data) => {
+  const handleForm: SubmitHandler<FieldValues> = async (data) => {
     const newUser = {
       username: data.nameLabel,
       email: data.emailLabel,
       password: data.passwordLabel,
     };
 
-    strapiRegister(newUser);
+    await signupUser(newUser);
   };
 
   return (

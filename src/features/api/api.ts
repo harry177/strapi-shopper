@@ -1,12 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "./baseQuery";
-
-const API_URL = "http://localhost:1337/api";
-
-interface IUserData {
-  identifier: string;
-  password: string;
-}
+import { ILoginUser, IReturnedProduct, ISignupUser } from "../types";
+import { API_URL } from "./instance";
 
 export const api = createApi({
   reducerPath: "api",
@@ -15,9 +10,18 @@ export const api = createApi({
   }),
   endpoints(build) {
     return {
-      query: build.query({ query: () => ({ url: "/query", method: "get" }) }),
+      getProducts: build.query<IReturnedProduct, void>({
+        query: () => ({ url: "/products?populate=*", method: "get" }),
+      }),
+      signupUser: build.mutation({
+        query: (user: ISignupUser) => ({
+          url: "/auth/local/register",
+          method: "post",
+          data: user,
+        }),
+      }),
       loginUser: build.mutation({
-        query: (user: IUserData) => ({
+        query: (user: ILoginUser) => ({
           url: "/auth/local",
           method: "post",
           data: user,
@@ -27,4 +31,8 @@ export const api = createApi({
   },
 });
 
-export const { useLoginUserMutation } = api;
+export const {
+  useGetProductsQuery,
+  useSignupUserMutation,
+  useLoginUserMutation,
+} = api;

@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginUserMutation } from "../features/api/api";
 import {
   Controller,
   FieldValues,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
+import { useCookies } from "react-cookie";
+import { useLoginUserMutation } from "../features/api/api";
 
 export const LoginPage = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const [loginUser, { isSuccess }] = useLoginUserMutation();
+  const [cookies, setCookie] = useCookies(["accessToken", "userId", "userName"]);
+
+  const [loginUser, { data, isSuccess }] = useLoginUserMutation();
 
   const navigate = useNavigate();
 
@@ -41,17 +44,35 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      const { jwt, user: { id, username } } = data as IAuthUser;
+      setCookie("accessToken", jwt, { path: "/" });
+      setCookie("userId", id, { path: "/" });
+      setCookie("userName", username, { path: "/" });
       navigate("/");
+    } else {
+      console.error("Login error");
+      console.log(cookies);
     }
   }, [isSuccess]);
 
+  interface IAuthUser {
+    jwt: string,
+    user: {
+      id: number,
+      username: string,
+    }
+  }
+
   const handleForm: SubmitHandler<FieldValues> = async (data) => {
-    const user = {
+    const authUser = {
       identifier: data.emailLabel,
       password: data.passwordLabel,
     };
-    await loginUser(user);
+
+    await loginUser(authUser);
   };
+
+
 
   return (
     <form className="login-form" onSubmit={handleSubmit(handleForm)}>
