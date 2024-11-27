@@ -58,7 +58,7 @@ export const LoginPage = () => {
   interface IAuthUser {
     jwt: string,
     user: {
-      id: number,
+      id: string,
       username: string,
     }
   }

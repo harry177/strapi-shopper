@@ -1,6 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "./baseQuery";
-import { ILoginUser, IReturnedProduct, ISignupUser } from "../types";
+import {
+  ILoginUser,
+  IReturnedProduct,
+  IReturnedProducts,
+  ISignupUser,
+} from "../types";
 import { API_URL } from "./instance";
 
 export const api = createApi({
@@ -10,8 +15,11 @@ export const api = createApi({
   }),
   endpoints(build) {
     return {
-      getProducts: build.query<IReturnedProduct, void>({
+      getProducts: build.query<IReturnedProducts, void>({
         query: () => ({ url: "/products?populate=*", method: "get" }),
+      }),
+      getProduct: build.query<IReturnedProduct, string>({
+        query: (id) => ({ url: `/products/${id}`, method: "get" }),
       }),
       signupUser: build.mutation({
         query: (user: ISignupUser) => ({
@@ -27,12 +35,35 @@ export const api = createApi({
           data: user,
         }),
       }),
+      addToCart: build.mutation<
+        void,
+        { id: number; userId: string; token: string }
+      >({
+        query: ({ id, userId, token }) => ({
+          /*url: `/users/${userId}`,
+          method: "put",
+          data: {
+            cart: { connect: [7] },
+            
+          },*/
+          url: `/users/${userId}`,
+          method: "put",
+          data: {
+            newCart: { connect: [id] },
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      }),
     };
   },
 });
 
 export const {
   useGetProductsQuery,
+  useGetProductQuery,
   useSignupUserMutation,
   useLoginUserMutation,
+  useAddToCartMutation,
 } = api;

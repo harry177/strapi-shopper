@@ -18,7 +18,7 @@ export interface SharedProducts extends Struct.ComponentSchema {
     displayName: 'Products';
   };
   attributes: {
-    Product: Schema.Attribute.Relation<'oneToOne', 'api::product.product'>;
+    product: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
   };
 }
 

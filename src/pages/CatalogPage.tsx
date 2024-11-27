@@ -1,22 +1,19 @@
-import { useEffect } from "react";
 import { useGetProductsQuery } from "../features/api/api";
 import { Product } from "../components/Product";
 import { IProduct } from "../components/types";
 
 export const CatalogPage = () => {
-  const { data: products, isSuccess } = useGetProductsQuery();
+  const { data: products } = useGetProductsQuery();
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(products);
-    }
-  }, [isSuccess]);
+  console.log(products)
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap" }}>
       {products?.data.map((product: IProduct) => (
         <Product
           key={product.id}
+          id={product.id}
+          documentId={product.documentId}
           Title={product.Title}
           Image={product.Image}
           Price={product.Price}

@@ -17,6 +17,10 @@ export interface IProductImage {
 }
 
 export interface IReturnedProduct {
+  data: IProduct;
+}
+
+export interface IReturnedProducts {
     data: IProduct[];
     meta: {
       pagination: {

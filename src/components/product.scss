@@ -1,0 +1,18 @@
+.catalog__card-button {
+  height: 50px;
+}
+
+.catalog__card-image {
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.catalog__card-image__container {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+}
