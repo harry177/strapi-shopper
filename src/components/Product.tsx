@@ -5,9 +5,14 @@ import { Link } from "react-router-dom";
 import { useAddToCartMutation } from "../features/api/api";
 import { useCookies } from "react-cookie";
 
-export const Product = ({ id, documentId, Title, Image, Price }: IProduct) => {
-
-  const [cookies] = useCookies(["accessToken", "userId"]);
+export const Product = ({
+  slug,
+  documentId,
+  Title,
+  Image,
+  Price,
+}: IProduct) => {
+  const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
 
   const [addToCart] = useAddToCartMutation();
 
@@ -31,7 +36,14 @@ export const Product = ({ id, documentId, Title, Image, Price }: IProduct) => {
             color="default"
             variant="solid"
             className="catalog__card-button"
-            onClick={() => addToCart({id, userId: cookies.userId, token: cookies.accessToken})}
+            onClick={() =>
+              addToCart({
+                id: slug as number,
+                userId: cookies.userId,
+                userDocumentId: cookies.userDocumentId,
+                token: cookies.accessToken,
+              })
+            }
           >
             Add to cart
           </Button>

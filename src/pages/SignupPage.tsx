@@ -8,12 +8,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useSignupUserMutation } from "../features/api/api";
+import { IAuthUser } from "../features/types";
 
 export const SignupPage = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const [cookies, setCookie] = useCookies(["accessToken", "userId", "userName"]);
+  const [cookies, setCookie] = useCookies(["accessToken", "userId", "userDocumentId", "userName"]);
 
   const [signupUser, { data, isSuccess }] = useSignupUserMutation();
 
@@ -44,9 +45,10 @@ export const SignupPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const { jwt, user: { id, username } } = data as IAuthUser;
+      const { jwt, user: { id, documentId, username } } = data as IAuthUser;
       setCookie("accessToken", jwt, { path: "/" });
       setCookie("userId", id, { path: "/" });
+      setCookie("userDocumentId", documentId, { path: "/" });
       setCookie("userName", username, { path: "/" });
       navigate("/");
     } else {
@@ -54,14 +56,6 @@ export const SignupPage = () => {
       console.log(cookies);
     }
   }, [isSuccess]);
-
-  interface IAuthUser {
-    jwt: string,
-    user: {
-      id: number,
-      username: string,
-    }
-  }
 
   const handleForm: SubmitHandler<FieldValues> = async (data) => {
     const newUser = {

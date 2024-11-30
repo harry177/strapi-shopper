@@ -9,11 +9,17 @@ export const Header = () => {
   const [cookies, removeCookie] = useCookies([
     "accessToken",
     "userId",
+    "userDocumentId",
     "userName",
   ]);
 
   useEffect(() => {
-    if (!cookies.accessToken || !cookies.userId || !cookies.userName) {
+    if (
+      !cookies.accessToken ||
+      !cookies.userId ||
+      !cookies.userDocumentId ||
+      !cookies.userName
+    ) {
       handleLogout();
     }
   }, [cookies]);
@@ -21,6 +27,7 @@ export const Header = () => {
   const handleLogout = () => {
     removeCookie("accessToken", "");
     removeCookie("userId", "");
+    removeCookie("userDocumentId", "");
     removeCookie("userName", "");
   };
 

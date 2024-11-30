@@ -37,20 +37,19 @@ export const api = createApi({
       }),
       addToCart: build.mutation<
         void,
-        { id: number; userId: string; token: string }
+        { id: number; userId: string; userDocumentId: string, token: string }
       >({
-        query: ({ id, userId, token }) => ({
+        query: ({ id, userId, userDocumentId, token }) => ({
+          /*url: `/users/${userId}?populate[cart][populate]=*`,
+          method: "get",*/
+          url: `/users/${userId}/cart`,
+          method: "put",
+          data: { userId: userDocumentId, productId: id },
           /*url: `/users/${userId}`,
           method: "put",
           data: {
-            cart: { connect: [7] },
-            
-          },*/
-          url: `/users/${userId}`,
-          method: "put",
-          data: {
             newCart: { connect: [id] },
-          },
+          },*/
           headers: {
             Authorization: `Bearer ${token}`,
           },

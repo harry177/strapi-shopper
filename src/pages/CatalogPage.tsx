@@ -5,14 +5,12 @@ import { IProduct } from "../components/types";
 export const CatalogPage = () => {
   const { data: products } = useGetProductsQuery();
 
-  console.log(products)
-
   return (
     <div style={{ display: "flex", flexWrap: "wrap" }}>
       {products?.data.map((product: IProduct) => (
         <Product
-          key={product.id}
-          id={product.id}
+          key={product.slug}
+          slug={product.slug}
           documentId={product.documentId}
           Title={product.Title}
           Image={product.Image}

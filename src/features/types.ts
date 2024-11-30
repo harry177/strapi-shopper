@@ -1,5 +1,14 @@
 import { IProduct } from "../components/types";
 
+export interface IAuthUser {
+  jwt: string,
+  user: {
+    id: string,
+    documentId: string;
+    username: string,
+  }
+}
+
 export interface ILoginUser {
   identifier: string;
   password: string;
@@ -26,7 +35,7 @@ export interface IReturnedProducts {
       pagination: {
         page: number;
         pageSize: number;
-        pageCOunt: number;
+        pageCount: number;
         total: number;
       }
     }

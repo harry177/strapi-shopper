@@ -8,12 +8,13 @@ import {
 } from "react-hook-form";
 import { useCookies } from "react-cookie";
 import { useLoginUserMutation } from "../features/api/api";
+import { IAuthUser } from "../features/types";
 
 export const LoginPage = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const [cookies, setCookie] = useCookies(["accessToken", "userId", "userName"]);
+  const [cookies, setCookie] = useCookies(["accessToken", "userId", "userDocumentId", "userName"]);
 
   const [loginUser, { data, isSuccess }] = useLoginUserMutation();
 
@@ -44,9 +45,10 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      const { jwt, user: { id, username } } = data as IAuthUser;
+      const { jwt, user: { id, documentId, username } } = data as IAuthUser;
       setCookie("accessToken", jwt, { path: "/" });
       setCookie("userId", id, { path: "/" });
+      setCookie("userDocumentId", documentId, { path: "/" });
       setCookie("userName", username, { path: "/" });
       navigate("/");
     } else {
@@ -54,14 +56,6 @@ export const LoginPage = () => {
       console.log(cookies);
     }
   }, [isSuccess]);
-
-  interface IAuthUser {
-    jwt: string,
-    user: {
-      id: string,
-      username: string,
-    }
-  }
 
   const handleForm: SubmitHandler<FieldValues> = async (data) => {
     const authUser = {
@@ -71,8 +65,6 @@ export const LoginPage = () => {
 
     await loginUser(authUser);
   };
-
-
 
   return (
     <form className="login-form" onSubmit={handleSubmit(handleForm)}>
