@@ -1,12 +1,15 @@
 import { IProduct } from "../components/types";
 
+export interface IUser {
+  id: string;
+  documentId: string;
+  username: string;
+  cart: IReturnedCartItem[];
+}
+
 export interface IAuthUser {
-  jwt: string,
-  user: {
-    id: string,
-    documentId: string;
-    username: string,
-  }
+  jwt: string;
+  user: IUser;
 }
 
 export interface ILoginUser {
@@ -20,6 +23,11 @@ export interface ISignupUser {
   password: string;
 }
 
+export interface ICartData {
+  userId: string;
+  token: string;
+}
+
 export interface IProductImage {
   url: string;
   alt: string;
@@ -30,13 +38,18 @@ export interface IReturnedProduct {
 }
 
 export interface IReturnedProducts {
-    data: IProduct[];
-    meta: {
-      pagination: {
-        page: number;
-        pageSize: number;
-        pageCount: number;
-        total: number;
-      }
-    }
-  }
+  data: IProduct[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+export interface IReturnedCartItem {
+  id: number;
+  product: IProduct[];
+}

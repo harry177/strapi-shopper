@@ -10,5 +10,13 @@ module.exports = {
         policies: [],
       },
     },
+    {
+      method: "PUT",
+      path: "/users/:userId/removecart",
+      handler: "user.removeFromCart",
+      config: {
+        policies: [],
+      },
+    },
   ],
 };

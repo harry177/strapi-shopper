@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { Avatar, Flex, Typography } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Badge, Flex, Typography } from "antd";
+import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { useGetCartQuery } from "../features/api/api";
+import { updateCart } from "../features/cart/cartSlice";
+import { useAppDispatch } from "../hooks/reduxHooks";
 import "./header.scss";
 
 export const Header = () => {
@@ -11,7 +14,22 @@ export const Header = () => {
     "userId",
     "userDocumentId",
     "userName",
+    "token",
   ]);
+
+  const dispatch = useAppDispatch();
+
+  const { data: user, isSuccess } = useGetCartQuery({
+    userId: cookies.userId,
+    token: cookies.token,
+  });
+
+  useEffect(() => {
+    if (isSuccess && user?.cart) {
+      dispatch(updateCart(user.cart));
+      console.log(user.cart);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (
@@ -50,7 +68,12 @@ export const Header = () => {
         </Flex>
         <Flex vertical>
           {cookies.accessToken ? (
-            <button onClick={handleLogout}>Logout</button>
+            <>
+              <button onClick={handleLogout}>Logout</button>
+              <Badge count={user?.cart.length} offset={[5, 0]}>
+                <ShoppingCartOutlined style={{ fontSize: "150%" }} />
+              </Badge>
+            </>
           ) : (
             <Link to={"/login"}>
               <button>Login</button>

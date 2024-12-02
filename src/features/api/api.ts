@@ -1,10 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "./baseQuery";
 import {
+  ICartData,
   ILoginUser,
   IReturnedProduct,
   IReturnedProducts,
   ISignupUser,
+  IUser,
 } from "../types";
 import { API_URL } from "./instance";
 
@@ -20,6 +22,12 @@ export const api = createApi({
       }),
       getProduct: build.query<IReturnedProduct, string>({
         query: (id) => ({ url: `/products/${id}`, method: "get" }),
+      }),
+      getCart: build.query<IUser, ICartData>({
+        query: (params) => ({
+          url: `/users/${params.userId}?populate[cart][populate]=*`,
+          method: "get",
+        }),
       }),
       signupUser: build.mutation({
         query: (user: ISignupUser) => ({
@@ -37,11 +45,9 @@ export const api = createApi({
       }),
       addToCart: build.mutation<
         void,
-        { id: number; userId: string; userDocumentId: string, token: string }
+        { id: number; userId: string; userDocumentId: string; token: string }
       >({
         query: ({ id, userId, userDocumentId, token }) => ({
-          /*url: `/users/${userId}?populate[cart][populate]=*`,
-          method: "get",*/
           url: `/users/${userId}/cart`,
           method: "put",
           data: { userId: userDocumentId, productId: id },
@@ -55,6 +61,19 @@ export const api = createApi({
           },
         }),
       }),
+      removeFromCart: build.mutation<
+        void,
+        { id: number; userId: string; userDocumentId: string; token: string }
+      >({
+        query: ({ id, userId, userDocumentId, token }) => ({
+          url: `/users/${userId}/removecart`,
+          method: "put",
+          data: { userId: userDocumentId, productId: id },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      }),
     };
   },
 });
@@ -62,7 +81,9 @@ export const api = createApi({
 export const {
   useGetProductsQuery,
   useGetProductQuery,
+  useGetCartQuery,
   useSignupUserMutation,
   useLoginUserMutation,
   useAddToCartMutation,
+  useRemoveFromCartMutation,
 } = api;
