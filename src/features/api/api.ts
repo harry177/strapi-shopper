@@ -15,6 +15,7 @@ export const api = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: API_URL,
   }),
+  tagTypes: ["User"],
   endpoints(build) {
     return {
       getProducts: build.query<IReturnedProducts, void>({
@@ -28,6 +29,7 @@ export const api = createApi({
           url: `/users/${params.userId}?populate[cart][populate]=*`,
           method: "get",
         }),
+        providesTags: ["User"],
       }),
       signupUser: build.mutation({
         query: (user: ISignupUser) => ({
@@ -48,31 +50,28 @@ export const api = createApi({
         { id: number; userId: string; userDocumentId: string; token: string }
       >({
         query: ({ id, userId, userDocumentId, token }) => ({
-          url: `/users/${userId}/cart`,
+          url: `/users/${userId}/add-to-cart`,
           method: "put",
           data: { userId: userDocumentId, productId: id },
-          /*url: `/users/${userId}`,
-          method: "put",
-          data: {
-            newCart: { connect: [id] },
-          },*/
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
+        invalidatesTags: ["User"],
       }),
       removeFromCart: build.mutation<
         void,
         { id: number; userId: string; userDocumentId: string; token: string }
       >({
         query: ({ id, userId, userDocumentId, token }) => ({
-          url: `/users/${userId}/removecart`,
+          url: `/users/${userId}/remove-from-cart`,
           method: "put",
           data: { userId: userDocumentId, productId: id },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
+        invalidatesTags: ["User"],
       }),
     };
   },

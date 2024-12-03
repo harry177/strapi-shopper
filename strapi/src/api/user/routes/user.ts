@@ -4,15 +4,15 @@ module.exports = {
   routes: [
     {
       method: "PUT",
-      path: "/users/:userId/cart",
-      handler: "user.updateCart",
+      path: "/users/:userId/add-to-cart",
+      handler: "user.addToCart",
       config: {
         policies: [],
       },
     },
     {
       method: "PUT",
-      path: "/users/:userId/removecart",
+      path: "/users/:userId/remove-from-cart",
       handler: "user.removeFromCart",
       config: {
         policies: [],

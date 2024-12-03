@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 
 export const Product = ({
   slug,
-  documentId,
   Title,
   Image,
   Price,
@@ -40,7 +39,7 @@ export const Product = ({
   }
 
   return (
-    <Link to={`/product/${documentId}`}>
+    <Link to={`/catalog/${slug}`}>
       <Card>
         <Flex vertical>
           <div className="catalog__card-image__container">

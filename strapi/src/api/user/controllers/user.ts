@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  async updateCart(ctx) {
+  async addToCart(ctx) {
     if (!ctx.request.body) {
       return ctx.badRequest("Missing request body");
     }
@@ -56,10 +56,6 @@ module.exports = {
         },
       });
 
-    //console.log(user.cart[0].product);
-    console.log(
-      user.cart.find((product) => product.product[0].slug === productId)
-    );
     const indexToDelete = user.cart.findIndex(
       (product) => product.product[0].slug === productId
     );
@@ -78,14 +74,6 @@ module.exports = {
       data: { cart: updatedCart },
       status: "published",
     });
-    //console.log(user.cart.find((item) => item.product))
-    /*const updatedUser = await strapi
-      .documents("plugin::users-permissions.user")
-      .update({
-        documentId: userId,
-        data: { cart: [...user.cart, { product: { disconnect: [productId] } }] },
-        status: "published",
-      });*/
 
     ctx.send(updatedUser);
   },

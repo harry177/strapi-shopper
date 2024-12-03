@@ -70,9 +70,11 @@ export const Header = () => {
           {cookies.accessToken ? (
             <>
               <button onClick={handleLogout}>Logout</button>
-              <Badge count={user?.cart.length} offset={[5, 0]}>
-                <ShoppingCartOutlined style={{ fontSize: "150%" }} />
-              </Badge>
+              <Link to={"/cart"}>
+                <Badge count={user?.cart.length} offset={[5, 0]}>
+                  <ShoppingCartOutlined style={{ fontSize: "150%" }} />
+                </Badge>
+              </Link>
             </>
           ) : (
             <Link to={"/login"}>
