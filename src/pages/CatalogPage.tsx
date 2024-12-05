@@ -1,5 +1,5 @@
 import { useGetProductsQuery } from "../features/api/api";
-import { Product } from "../components/Product";
+import { Product } from "../components/Product/Product";
 import { IProduct } from "../components/types";
 
 export const CatalogPage = () => {

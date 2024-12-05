@@ -1,0 +1,41 @@
+.auth-frame {
+  width: 350px;
+  padding: 10px;
+}
+
+.auth-frame__title {
+  color: #1f41bb;
+}
+
+.auth-frame__appeal {
+  font-size: 20px;
+}
+
+.auth-frame__redirect {
+  margin-top: 20px;
+
+  &:hover {
+    color: #1f41bb;
+  }
+}
+
+.spin-container {
+  height: 40px;
+}
+
+.submit-button {
+  color: #ffffff;
+  background-color: #1f41bb;
+  width: 100%;
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: #3e5fcd;
+  }
+
+  &:disabled {
+    background-color: #e6e6e6;
+    color: #b0b0b0;
+    cursor: not-allowed;
+  }
+}

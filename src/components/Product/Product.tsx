@@ -1,16 +1,14 @@
 import { Button, Card, Flex, Image as AntImage, Typography } from "antd";
-import { IProduct } from "./types";
+import { IProduct } from "../types";
 import "./product.scss";
 import { Link } from "react-router-dom";
-import { useAddToCartMutation, useRemoveFromCartMutation } from "../features/api/api";
+import {
+  useAddToCartMutation,
+  useRemoveFromCartMutation,
+} from "../../features/api/api";
 import { useCookies } from "react-cookie";
 
-export const Product = ({
-  slug,
-  Title,
-  Image,
-  Price,
-}: IProduct) => {
+export const Product = ({ slug, Title, Image, Price }: IProduct) => {
   const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
 
   const [addToCart] = useAddToCartMutation();
@@ -36,7 +34,7 @@ export const Product = ({
       userDocumentId: cookies.userDocumentId,
       token: cookies.accessToken,
     });
-  }
+  };
 
   return (
     <Link to={`/catalog/${slug}`}>
@@ -66,7 +64,9 @@ export const Product = ({
             color="default"
             variant="solid"
             className="catalog__card-button"
-            onClick={(event) => {handleRemoveFromCart(event)}}
+            onClick={(event) => {
+              handleRemoveFromCart(event);
+            }}
           >
             Remove from cart
           </Button>
