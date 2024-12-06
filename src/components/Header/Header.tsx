@@ -1,12 +1,17 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { Avatar, Badge, Flex, Typography } from "antd";
-import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Badge, Flex, Menu, Popover, Typography } from "antd";
+import {
+  HeartOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { useGetCartQuery } from "../../features/api/api";
 import { updateCart } from "../../features/cart/cartSlice";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import "./header.scss";
+import { UserPopover } from "../UserPopover/UserPopover";
 
 export const Header = () => {
   const [cookies, removeCookie] = useCookies([
@@ -23,6 +28,8 @@ export const Header = () => {
     userId: cookies.userId,
     token: cookies.token,
   });
+
+  const location = useLocation();
 
   useEffect(() => {
     if (isSuccess && user?.cart) {
@@ -50,41 +57,46 @@ export const Header = () => {
 
   return (
     <header className="header">
-      <Link to={"/"}>
-        <Typography.Title className="header-logo">
-          Strapi Shopper
-        </Typography.Title>
-      </Link>
-      <Link to={"/catalog"}>
-        <button>Catalog</button>
-      </Link>
-      <Flex>
-        <Flex vertical>
+      <Flex align="center" gap={100}>
+        <Link to={"/"}>
+          <Typography.Title className="header-logo">
+            Strapi Shopper
+          </Typography.Title>
+        </Link>
+        <Menu selectedKeys={[location.pathname]} className="header-menu">
+          <Menu.Item key="/catalog">
+            <Link to="/catalog">Catalog</Link>
+          </Menu.Item>
+        </Menu>
+      </Flex>
+      <Typography.Paragraph>{cookies.userName}</Typography.Paragraph>
+      <Flex align="center" className="header__icons-container">
+        <Flex gap="small">
+          <Badge dot={cookies.accessToken} status="success">
+            <Popover placement="bottom" content={UserPopover}>
+              <Avatar
+                size={25}
+                icon={<UserOutlined />}
+                className="header-avatar"
+              />
+            </Popover>
+          </Badge>
           <Avatar
-            size={40}
-            icon={<UserOutlined />}
-            style={{ backgroundColor: cookies.accessToken && "#87d068" }}
+            size={25}
+            icon={<HeartOutlined />}
+            className="header-avatar"
           />
-          <Typography.Paragraph>{cookies.userName}</Typography.Paragraph>
-        </Flex>
-        <Flex vertical>
-          {cookies.accessToken && user?.cart ? (
-            <>
-              <button onClick={handleLogout}>Logout</button>
-              <Link to={"/cart"}>
-                <Badge count={user.cart.length} offset={[5, 0]}>
-                  <ShoppingCartOutlined style={{ fontSize: "150%" }} />
-                </Badge>
-              </Link>
-            </>
-          ) : (
-            <Link to={"/login"}>
-              <button>Login</button>
-            </Link>
-          )}
-          <Link to={"/signup"}>
-            <button>Sign up</button>
-          </Link>
+          <Badge
+            count={cookies.accessToken && user?.cart && user.cart.length}
+            offset={[3, -1]}
+            size="small"
+          >
+            <Avatar
+              size={25}
+              icon={<ShoppingCartOutlined />}
+              className="header-avatar"
+            />
+          </Badge>
         </Flex>
       </Flex>
     </header>
