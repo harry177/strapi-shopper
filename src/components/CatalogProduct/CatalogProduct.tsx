@@ -1,6 +1,6 @@
 import { Button, Card, Flex, Image as AntImage, Typography, Badge } from "antd";
 import { IProduct } from "../types";
-import "./product.scss";
+import "./catalog-product.scss";
 import { Link } from "react-router-dom";
 import {
   useAddToCartMutation,
@@ -10,7 +10,7 @@ import { useCookies } from "react-cookie";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
-export const Product = ({ slug, Title, Image, Price }: IProduct) => {
+export const CatalogProduct = ({ slug, Title, Image, Price }: IProduct) => {
   const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
 
   const cartItems = useAppSelector((state) => state.cart);

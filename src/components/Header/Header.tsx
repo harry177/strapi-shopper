@@ -34,6 +34,7 @@ export const Header = () => {
   useEffect(() => {
     if (isSuccess && user?.cart) {
       dispatch(updateCart(user.cart));
+      console.log(user.cart);
     }
   }, [user]);
 
@@ -69,34 +70,43 @@ export const Header = () => {
           </Menu.Item>
         </Menu>
       </Flex>
-      <Typography.Paragraph>{cookies.userName}</Typography.Paragraph>
-      <Flex align="center" className="header__icons-container">
-        <Flex gap="small">
-          <Badge dot={cookies.accessToken} status="success">
-            <Popover placement="bottom" content={UserPopover}>
-              <Avatar
-                size={25}
-                icon={<UserOutlined />}
-                className="header-avatar"
-              />
-            </Popover>
-          </Badge>
-          <Avatar
-            size={25}
-            icon={<HeartOutlined />}
-            className="header-avatar"
-          />
-          <Badge
-            count={cookies.accessToken && user?.cart && user.cart.length}
-            offset={[3, -1]}
-            size="small"
-          >
+      <Flex
+        align="center"
+        justify="space-evenly"
+        gap="small"
+        className="header__icons-container"
+      >
+        <Typography.Paragraph>{cookies.userName}</Typography.Paragraph>
+        <Flex justify="center" style={{width: '140px'}}>
+          <Flex gap="small">
+            <Badge dot={cookies.accessToken} status="success">
+              <Popover placement="bottom" content={UserPopover}>
+                <Avatar
+                  size={25}
+                  icon={<UserOutlined />}
+                  className="header-avatar"
+                />
+              </Popover>
+            </Badge>
             <Avatar
               size={25}
-              icon={<ShoppingCartOutlined />}
+              icon={<HeartOutlined />}
               className="header-avatar"
             />
-          </Badge>
+            <Badge
+              count={cookies.accessToken && user?.cart && user.cart.length}
+              offset={[3, -1]}
+              size="small"
+            >
+              <Link to="/cart">
+                <Avatar
+                  size={25}
+                  icon={<ShoppingCartOutlined />}
+                  className="header-avatar"
+                />
+              </Link>
+            </Badge>
+          </Flex>
         </Flex>
       </Flex>
     </header>

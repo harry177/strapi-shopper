@@ -1,6 +1,6 @@
 import { Flex } from "antd";
 import { useGetProductsQuery } from "../features/api/api";
-import { Product } from "../components/Product/Product";
+import { CatalogProduct } from "../components/CatalogProduct/CatalogProduct";
 import { IProduct } from "../components/types";
 import { CatalogSkeleton } from "../components/CatalogSkeleton/CatalogSkeleton";
 
@@ -14,7 +14,7 @@ export const CatalogPage = () => {
             <CatalogSkeleton key={index} />
           ))
         : products?.data.map((product: IProduct) => (
-            <Product
+            <CatalogProduct
               key={product.slug}
               slug={product.slug}
               documentId={product.documentId}

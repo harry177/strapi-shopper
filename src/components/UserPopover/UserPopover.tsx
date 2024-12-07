@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Flex, Typography } from "antd";
+import "./user-popover.scss";
 
 export const UserPopover = () => {
   const [cookies, removeCookie] = useCookies([
@@ -21,16 +22,23 @@ export const UserPopover = () => {
   return (
     <Flex vertical>
       {cookies.accessToken ? (
-        <Typography.Paragraph onClick={handleLogout}>
+        <Typography.Paragraph
+          onClick={handleLogout}
+          className="user-popover__text"
+        >
           Logout
         </Typography.Paragraph>
       ) : (
         <Link to={"/login"}>
-          <Typography.Paragraph>Login</Typography.Paragraph>
+          <Typography.Paragraph className="user-popover__text">
+            Login
+          </Typography.Paragraph>
         </Link>
       )}
       <Link to={"/signup"}>
-        <Typography.Paragraph>Signup</Typography.Paragraph>
+        <Typography.Paragraph className="user-popover__text">
+          Signup
+        </Typography.Paragraph>
       </Link>
     </Flex>
   );

@@ -22,11 +22,11 @@ export const api = createApi({
         query: () => ({ url: "/products?populate=*", method: "get" }),
       }),
       getProduct: build.query<IReturnedProduct, string>({
-        query: (id) => ({ url: `/products/${id}`, method: "get" }),
+        query: (id) => ({ url: `/products/${id}?populate=*`, method: "get" }),
       }),
       getCart: build.query<IUser, ICartData>({
         query: (params) => ({
-          url: `/users/${params.userId}?populate[cart][populate]=*`,
+          url: `/users/${params.userId}?populate[cart][populate][product][populate]=*`,
           method: "get",
         }),
         providesTags: ["User"],
