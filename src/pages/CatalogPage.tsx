@@ -10,7 +10,7 @@ export const CatalogPage = () => {
   return (
     <Flex justify="flex-start" align="flex-start"  gap="middle" wrap style={{width: "100%"}}>
       {isLoading
-        ? Array.from([1, 2, 3]).map((item, index) => (
+        ? Array.from([1, 2, 3]).map((_item, index) => (
             <CatalogSkeleton key={index} />
           ))
         : products?.data.map((product: IProduct) => (
