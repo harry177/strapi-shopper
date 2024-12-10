@@ -6,6 +6,7 @@ import {
   useAddToCartMutation,
   useRemoveFromCartMutation,
 } from "../../features/api/api";
+import { API_URL } from "../../features/api/instance";
 
 export const CartProduct = ({ slug, Title, Image, Price }: IProduct) => {
   const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
@@ -48,7 +49,7 @@ export const CartProduct = ({ slug, Title, Image, Price }: IProduct) => {
           <AntImage
             width={200}
             height={200}
-            src={`http://localhost:1337${Image[0].url}`}
+            src={API_URL.slice(0, -4) + Image[0].url}
             alt={Image[0].alt}
             preview={false}
             className="catalog__card-image"

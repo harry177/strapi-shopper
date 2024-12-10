@@ -8,5 +8,11 @@ export default (config: UserConfig) => {
         '@': '/src',
       },
     },
-  });
+    server: {
+      cors: {
+        origin: ['http://localhost:5173', 'https://strapi-shopper.vercel.app', ],
+        credentials: true,
+      },
+    },
+  })
 };

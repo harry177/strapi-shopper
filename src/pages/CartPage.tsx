@@ -8,8 +8,7 @@ export const CartPage = () => {
     const res = new Map();
   
     for (const item of cartItems.cart) {
-      const productKey = item.product[0]?.slug; 
-      console.log(productKey);
+      const productKey = item.product[0]?.slug;
   
       if (!res.has(productKey)) {
         res.set(productKey, { product: item.product[0], amount: 1 });
