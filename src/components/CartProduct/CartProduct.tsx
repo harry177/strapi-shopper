@@ -8,7 +8,7 @@ import {
 } from "../../features/api/api";
 import { API_URL } from "../../features/api/instance";
 
-export const CartProduct = ({ slug, Title, Image, Price }: IProduct) => {
+export const CartProduct = ({ slug, documentId, Title, Image, Price }: IProduct) => {
   const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
 
   const [addToCart] = useAddToCartMutation();
@@ -24,7 +24,7 @@ export const CartProduct = ({ slug, Title, Image, Price }: IProduct) => {
     event.preventDefault();
     event.stopPropagation();
     addToCart({
-      id: slug as number,
+      id: documentId as string,
       userId: cookies.userId,
       userDocumentId: cookies.userDocumentId,
       token: cookies.accessToken,
