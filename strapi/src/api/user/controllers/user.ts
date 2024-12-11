@@ -16,14 +16,22 @@ module.exports = {
       .documents("plugin::users-permissions.user")
       .findOne({
         documentId: userId,
-        populate: ["cart"],
+        populate: {
+          cart: {
+            populate: {
+              product: {
+                populate: [],
+              },
+            },
+          },
+        },
       });
 
     const updatedUser = await strapi
       .documents("plugin::users-permissions.user")
       .update({
         documentId: userId,
-        data: { cart: [...user.cart, { product: { connect: [productId] } }] },
+        data: { cart: [...user.cart, { product: { set: [productId] } }] },
         status: "published",
       });
 

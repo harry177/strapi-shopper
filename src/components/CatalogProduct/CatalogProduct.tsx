@@ -11,7 +11,7 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { API_URL } from "../../features/api/instance";
 
-export const CatalogProduct = ({ slug, Title, Image, Price }: IProduct) => {
+export const CatalogProduct = ({ slug, documentId, Title, Image, Price }: IProduct) => {
   const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
 
   const cartItems = useAppSelector((state) => state.cart);
@@ -23,7 +23,7 @@ export const CatalogProduct = ({ slug, Title, Image, Price }: IProduct) => {
     event.preventDefault();
     event.stopPropagation();
     addToCart({
-      id: slug as number,
+      id: documentId as string,
       userId: cookies.userId,
       userDocumentId: cookies.userDocumentId,
       token: cookies.accessToken,

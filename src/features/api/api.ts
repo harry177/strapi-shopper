@@ -47,7 +47,7 @@ export const api = createApi({
       }),
       addToCart: build.mutation<
         void,
-        { id: number; userId: string; userDocumentId: string; token: string }
+        { id: string; userId: string; userDocumentId: string; token: string }
       >({
         query: ({ id, userId, userDocumentId, token }) => ({
           url: `/users/${userId}/add-to-cart`,

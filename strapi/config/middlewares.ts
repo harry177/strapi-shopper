@@ -10,7 +10,6 @@ export default [
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       headers: "*",
       keepHeaderOnError: true,
-      credentials: false,
     },
   },
   'strapi::poweredBy',
