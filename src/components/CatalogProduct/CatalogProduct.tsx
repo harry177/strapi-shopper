@@ -9,7 +9,6 @@ import {
 import { useCookies } from "react-cookie";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../hooks/reduxHooks";
-import { API_URL } from "../../features/api/instance";
 
 export const CatalogProduct = ({ slug, documentId, Title, Image, Price }: IProduct) => {
   const [cookies] = useCookies(["accessToken", "userId", "userDocumentId"]);
@@ -49,7 +48,7 @@ export const CatalogProduct = ({ slug, documentId, Title, Image, Price }: IProdu
             <AntImage
               width={300}
               height={300}
-              src={API_URL.slice(0, -4) + Image[0].url}
+              src={Image[0].url}
               alt={Image[0].alt}
               preview={false}
               className="catalog__card-image"
