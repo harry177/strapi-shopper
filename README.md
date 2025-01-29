@@ -2,15 +2,16 @@
 
 ## Deployment backend: [https://strapi-shopper-backend-c8c4fe79471e.herokuapp.com/](https://strapi-shopper-backend-c8c4fe79471e.herokuapp.com/)
 
-## Access data
+## About:
 
-- **Email:** prygunov177@gmail.com
-- **Password:** Prygunov177!
+Strapi-shopper is an example of how the modern Strapi CMS full-stack application can be.
+For this project Strapi 5 was selected, which means that for the backend part new Strapi documents API was used for making and customizing controllers.
 
-## User acc. (if available)
+To get access for adding / removing products to / from cart user needs to create an account.
 
-- **Email:** harry177@rambler.ru
-- **Password:** Harry177!
+This repo contains both sides - frontend and backend, including copy of my local sqlite database. However, if you decide to clone it and launch locally you can`t access CMS account without credentials. Therefore the best way - to delete .env file and .tmp folder from strapi folder and then to create your own sqlite local database independently (Cloudinary credentials from .env can be copied to new .env file).
+
+If you will have any questions - please contact me.
 
 ## ATTENTION!!!
 
